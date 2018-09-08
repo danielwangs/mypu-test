@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Pusher Test</title>
+  <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+          crossorigin="anonymous">
+  </script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('05dceae4343ae8e632bf', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
+
+    var Channel  = pusher.subscribe('my-channel');
+    Channel .bind('my-event', function(data) {
+      alert(JSON.stringify(data));
+      // console.log(JSON.stringify(data, null, 2));
+      const data2 = {
+      name: data.name,
+      message: data.message,
+      number: data.number
+      }
+
+      const element = document.getElementById('app');
+      element.innerHTML = `<p>name：${data2.name}</p>
+                           <p>message：${data2.message}</p>
+                           <p>number：${data2.number}</p>`
+
+    });
+  </script>
+</head>
+
+<body>
+  <h1>Pusher Demo</h1>
+  <p>
+    Try publishing an event to channel <code>my-channel</code>
+    with event name <code>my-event</code>.
+  </p>
+  <div id="app">
+
+  </div>
+  <button type="button" name="button">PU</button>
+  <!-- <button type="button" name="inDB">inDB</button> -->
+
+  <script src="./js/pusher_pu.js"></script>
+  <!-- <script src="./indb.js"></script> -->
+</body>
